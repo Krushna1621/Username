@@ -1,39 +1,45 @@
-import React,{useState} from "react";
+import React,{useState,useRef} from "react";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import Wrapper from "../Helpers/Wrapper";
 import classes from './AddUser.module.css';
 import ErrorModal from "../UI/ErrorModal";
 const AddUser=(props)=>{
-    const[enterUseranme,setEnteredUsername]=useState('')
-    const[enterAge,setEnterAge]=useState('')
+    const nameInputRef=useRef();
+    const ageInputRef=useRef();
+   /* const[enterUseranme,setEnteredUsername]=useState('')
+    const[enterAge,setEnterAge]=useState('')*/
     const[error,setError]=useState()
     const addUserhandler=(event)=>{
           event.preventDefault();
-          if(enterUseranme.trim().length===0 || enterAge.trim().length===0){
+          const enterName=nameInputRef.current.value;
+          const enterUserAge=ageInputRef.current.value;
+          if(enterName.trim().length===0 || enterUserAge.trim().length===0){
             setError({
               title:'Invalid input',
               message:'Please Enter valid name and age (non-empty values).'
             })
             return;
           }
-          if(enterAge<1){
+          if(enterUserAge<1){
             setError({
               title:'Invalid Age',
               message:'Please Enter valid Age(>0).'
             })
             return;
           }
-          props.addUser(enterUseranme,enterAge);
-          setEnteredUsername('');
-          setEnterAge('');
+          props.addUser(enterName,enterUserAge);
+          nameInputRef.current.value='';
+          ageInputRef.current.value='';
+          //setEnteredUsername('');
+          //setEnterAge('');
     }
-    const usernamechangehandeler=(event)=>{
+   /* const usernamechangehandeler=(event)=>{
           setEnteredUsername(event.target.value)
     }
     const agechangehandler=(event)=>{
        setEnterAge(event.target.value)
-    }
+    }*/
     const errorhandler=()=>{
          setError(null)
     }
@@ -44,9 +50,16 @@ const AddUser=(props)=>{
       <Card className={classes.input} >
         <form onSubmit={addUserhandler}>
           <label htmlFor="username">Username</label>
-          <input  id='username' type='text' value={enterUseranme} onChange={usernamechangehandeler}></input>
+          <input  id='username'
+           type='text' 
+          //value={enterUseranme} 
+          //onChange={usernamechangehandeler}
+          ref={nameInputRef}></input>
            <label htmlFor="age">Age(Years)</label>
-          <input id='age'  type='number' value={enterAge}  onChange={agechangehandler}></input>
+          <input id='age'  type='number' 
+           //value={enterAge} 
+           //onChange={agechangehandler}
+           ref={ageInputRef}></input>
           <Button type="submit">Add User</Button>
       </form>
       </Card>
