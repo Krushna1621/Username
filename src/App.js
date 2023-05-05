@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import logo from './logo.svg';
+import React,{useState,Fragment} from 'react';
+
 import './App.css';
 import AddUser from './Components/Users/AddUser';
 import UserList from './Components/Users/UserList';
@@ -12,10 +12,10 @@ function App() {
       }) 
   }
   return (
-    <div className="App">
+    <Fragment>
       <AddUser addUser={addUserhandler}></AddUser>
       <UserList users={userList}></UserList>
-    </div>
+    </Fragment>
   );
 } 
 
